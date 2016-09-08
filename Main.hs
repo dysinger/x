@@ -125,7 +125,7 @@ xmonadNoargs
     :: (LayoutClass l Window, Read (l Window))
     => XConfig l -> Maybe String -> Maybe String -> IO ()
 xmonadNoargs initxmc serializedWinset serializedExtstate = do
-    setLocale LC_ALL (Just "")
+    _ <- setLocale LC_ALL (Just "")
     installSignalHandlers
     let xmc =
             initxmc
@@ -190,7 +190,7 @@ xmonadNoargs initxmc serializedWinset serializedExtstate = do
             , dragging = Nothing
             , extensibleState = extState
             }
-    allocaXEvent $
+    _ <- allocaXEvent $
         \e ->
              runX cf st $
              do setNumlockMask
@@ -201,7 +201,7 @@ xmonadNoargs initxmc serializedWinset serializedExtstate = do
                 windows . const . foldr W.delete winset $
                     W.allWindows winset \\ ws
                 mapM_ manage (ws \\ W.allWindows winset)
-                userCode $ startupHook initxmc
+                _ <- userCode $ startupHook initxmc
                 forever $ prehandle =<< io (nextEvent dpy e >> getEvent e)
     return ()
   where
