@@ -103,6 +103,7 @@ main =
     myXPConfig =
         def
         { autoComplete = Just 1
-        , font = "xft:Fira Mono:medium:size=10:antialias=true:hinting=light"
+        , font = "xft:Fira Mono:medium:size=13:antialias=true:hinting=light"
+        , height = 32
         , position = Bottom
         }
