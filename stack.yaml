@@ -1,0 +1,9 @@
+resolver: lts-6.16
+# build:
+#   split-objs: true
+# ghc-options:
+#   '*': '-optc-Os -optl-static -fPIC'
+# rebuild-ghc-options: true
+extra-deps:
+- X11-xft-0.3.1
+- xmonad-contrib-0.12
