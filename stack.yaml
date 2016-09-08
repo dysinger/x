@@ -4,6 +4,12 @@ resolver: lts-6.16
 # ghc-options:
 #   '*': '-optc-Os -optl-static -fPIC'
 # rebuild-ghc-options: true
+packages:
+- '.'
+- location:
+    git: https://github.com/dysinger/xmonad.git
+    commit: d171933b9e0092f13dc28e881430f44aaca2ea65
+  extra-dep: true
 extra-deps:
 - X11-xft-0.3.1
 - xmonad-contrib-0.12
