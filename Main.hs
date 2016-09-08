@@ -2,46 +2,45 @@
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-import Control.Arrow (second)
-import Control.Monad.Reader
-import Control.Monad.State
-import Data.Bits
-import Data.List ((\\))
-import qualified Data.Map as M
-import Data.Maybe (fromMaybe)
-import Data.Monoid (getAll)
+module Main (main) where
+
+import Control.Monad.Reader (join, void)
+import Data.Bits (Bits((.|.)))
+import qualified Data.Map as M (fromList)
 import Data.Ratio ((%))
-import qualified Data.Set as S
 import Data.Time (getCurrentTime)
 import Distribution.PackageDescription.TH
        (PackageDescription(package), PackageIdentifier(pkgVersion),
         packageVariable)
-import Graphics.X11.Xlib hiding (refreshKeyboardMapping)
-import Graphics.X11.Xlib.Extras
+import Graphics.X11.Xlib
+       (xK_g, xK_z, xK_space, mod4Mask, controlMask)
 import Language.Haskell.TH (runIO, stringE)
 import Options.Applicative
-import System.Environment
-import System.IO
-import System.Locale.SetLocale
+       (helper, execParser, switch, subparser, short, progDesc, long,
+        info, help, header, fullDesc, command, (<>))
+import System.Environment (withArgs)
 import XMonad
-import XMonad.Actions.CycleWS
-import XMonad.Actions.NoBorders
-import qualified XMonad.Config as Default
-import XMonad.Config.Gnome
-import XMonad.Config.Kde
-import XMonad.Hooks.ManageHelpers
-import XMonad.Layout.Accordion
-import XMonad.Layout.ComboP
-import XMonad.Layout.Grid
-import XMonad.Layout.IM
-import XMonad.Layout.PerWorkspace
-import XMonad.Layout.Roledex
-import XMonad.Layout.TabBarDecoration
+       (XConfig(XConfig, focusedBorderColor, keys, layoutHook, manageHook,
+                modMask),
+        Tall(Tall), Default(def), withFocused, doIgnore, doFloat,
+        composeAll, className, (=?), (<+>), (-->), xmonadNoargs, (|||),
+        installSignalHandlers)
+import XMonad.Actions.CycleWS (toggleWS)
+import XMonad.Actions.NoBorders (toggleBorder)
+import XMonad.Config.Gnome (gnomeConfig)
+import XMonad.Config.Kde (kdeConfig)
+import XMonad.Hooks.ManageHelpers (isFullscreen, doFullFloat)
+import XMonad.Layout.Accordion (Accordion(Accordion))
+import XMonad.Layout.ComboP (Property(Title))
+import XMonad.Layout.Grid (Grid(Grid))
+import XMonad.Layout.IM (withIM)
+import XMonad.Layout.PerWorkspace (onWorkspace)
+import XMonad.Layout.Roledex (Roledex(Roledex))
+import XMonad.Layout.TabBarDecoration (XPPosition(Bottom))
 import XMonad.Prompt
-import XMonad.Prompt.Shell
-import XMonad.StackSet (new, floating, member)
-import qualified XMonad.StackSet as W
-import XMonad.Util.Replace
+       (XPConfig(autoComplete, font, height, position))
+import XMonad.Prompt.Shell (shellPrompt)
+import XMonad.Util.Replace (replace)
 
 main :: IO ()
 main =
