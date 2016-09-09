@@ -1,9 +1,4 @@
 resolver: lts-6.16
-# build:
-#   split-objs: true
-# ghc-options:
-#   '*': '-optc-Os -optl-static -fPIC'
-# rebuild-ghc-options: true
 packages:
 - '.'
 - location:
